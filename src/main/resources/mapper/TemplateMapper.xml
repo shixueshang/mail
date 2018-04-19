@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolgua.mail.mapper.TemplateMapper">
+
+	<resultMap id="TemplateMap" type="Template">
+		<id column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="org_id" jdbcType="INTEGER" property="orgId"/>
+		<result column="provider_id" jdbcType="TINYINT" property="providerId"/>
+		<result column="name" jdbcType="VARCHAR" property="name"/>
+		<result column="ds_id" jdbcType="VARCHAR" property="dsId"/>
+		<result column="ds_type" jdbcType="TINYINT" property="dsType"/>
+		<result column="mail_field" jdbcType="VARCHAR" property="mailField"/>
+		<result column="mail_type" jdbcType="TINYINT" property="mailType"/>
+		<result column="replace_field" jdbcType="VARCHAR" property="replaceField"/>
+		<result column="sender_name" jdbcType="VARCHAR" property="senderName"/>
+		<result column="sender_address" jdbcType="VARCHAR" property="senderAddress"/>
+		<result column="reply_address" jdbcType="VARCHAR" property="replyAddress"/>
+		<result column="subject" jdbcType="VARCHAR" property="subject"/>
+		<result column="content" jdbcType="VARCHAR" property="content"/>
+		<result column="status" jdbcType="TINYINT" property="status"/>
+		<result column="scheduled" jdbcType="TINYINT" property="scheduled"/>
+		<result column="send_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="sendTime"/>
+		<result column="unsubscribe" jdbcType="TINYINT" property="unsubscribe"/>
+		<result column="unsubscribe_language" jdbcType="VARCHAR" property="unsubscribeLanguage"/>
+		<result column="campaign_id" jdbcType="VARCHAR" property="campaignId"/>
+		<result column="creator" jdbcType="VARCHAR" property="creator"/>
+		<result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
+		<result column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="createTime"/>
+		<result column="mender" jdbcType="VARCHAR" property="mender"/>
+		<result column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="updateTime"/>
+	</resultMap>
+
+	<resultMap id="AttachmentMap" type="Attachment">
+		<id column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="template_id" jdbcType="VARCHAR" property="templateId"/>
+		<result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+		<result column="file_path" jdbcType="VARCHAR" property="filePath"/>
+	</resultMap>
+
+	<insert id="addTemplate" parameterType="Template" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select  replace(uuid(),'-','')   from dual
+		</selectKey>
+		insert into m_template (id, org_id, provider_id, name, ds_id, ds_type, mail_field, mail_type, replace_field, sender_name, sender_address, reply_address, subject, content, status, scheduled, send_time, unsubscribe, unsubscribe_language, campaign_id, creator, creator_name, create_time, mender, update_time)
+		VALUES (#{id}, #{orgId}, #{providerId}, #{name}, #{dsId}, #{dsType}, #{mailField}, #{mailType}, #{replaceField}, #{senderName}, #{senderAddress}, #{replyAddress}, #{subject}, #{content}, #{status}, #{scheduled}, #{sendTime}, #{unsubscribe}, #{unsubscribeLanguage}, #{campaignId}, #{creator}, #{creatorName}, #{createTime}, #{mender}, #{updateTime})
+	</insert>
+
+	<select id="findTemplatesByCondition" parameterType="java.util.Map" resultMap="TemplateMap">
+		select * from m_template
+		<where>
+			<if test="orgId != null">
+				org_id = #{orgId}
+			</if>
+			<if test="name != null and name != ''">
+				and name like CONCAT('%','${name}', '%')
+			</if>
+			<if test="status != null">
+				and status = #{status}
+			</if>
+			<if test="mailType != null">
+				and mail_type = #{mailType}
+			</if>
+			<if test="dsType != null">
+				and ds_type = #{dsType}
+			</if>
+			<if test="startTime != null and endTime != null">
+				<![CDATA[and create_time > #{startTime} and create_time < #{endTime}]]>
+			</if>
+			order by create_time desc
+		</where>
+	</select>
+
+	<select id="getTemplate" parameterType="java.lang.String" resultMap="TemplateMap">
+		select * from m_template where id = #{id}
+	</select>
+
+	<update id="updateTemplate" parameterType="Template">
+		update m_template
+		<set>
+			update_time = #{updateTime}, mender = #{mender},
+			<if test="status != null">
+				status = #{status}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<update id="batchUpdateTemplates" parameterType="java.util.Map">
+		update m_template set status = #{status}, update_time = #{updateTime}, mender = #{mender} where id in
+		<foreach collection="ids" item="id" index="index" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+
+	<insert id="addAttachment" parameterType="Attachment" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select  replace(uuid(),'-','')   from dual
+		</selectKey>
+		insert into m_attachment (id, template_id, file_name, file_path) VALUES (#{id}, #{templateId}, #{fileName}, #{filePath})
+	</insert>
+
+	<select id="findAttachsByTemplateId" parameterType="java.lang.String" resultMap="AttachmentMap">
+		select * from m_attachment where template_id = #{templateId}
+	</select>
+
+	<delete id="deleteAttach" parameterType="java.lang.String">
+		delete from m_attachment where id = #{id}
+	</delete>
+</mapper>

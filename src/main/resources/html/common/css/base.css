@@ -1,0 +1,107 @@
+body{
+	background: #f7f7f7;
+	height: 100%;
+}
+.no-background{background: none!important;box-shadow: none!important;}
+.must{color:red;}
+.button {
+    color: #7cc623;
+    text-decoration: none;
+    font-size: 12px;
+    min-width: 84px;
+    text-align: center;
+    border: 1px solid #7cc623;
+    border-radius: 12px;
+    margin: 0 5px;
+    background: #fff;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+.button:hover{background:#7cc623;color:#fff;}
+input[type=checkbox],input[type=radio]{
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+.nbutton{
+    width: 150px;
+    height: 26px;
+    border: none;
+    border-radius: 5px;
+    background: #7cc623;
+    color: #fff;
+    cursor: pointer;
+}
+
+.upload-file{
+    position: relative;
+    color: #7cc623;
+    margin-top: 5px;
+    display: inline-block;
+    cursor: pointer;
+    min-width: 62px;
+}
+.upload-btn{
+    opacity: 0;
+    position:absolute;
+    left:0px;
+    top:0px;
+}
+
+
+
+.dialog{display: none}
+.dialog-content{padding:20px;}
+.dialog-content .group-item{width: 361px;display: inline-block;margin: 10px 10px;position:relative;}
+.group-item>input {
+    width: 239px;
+    height: 27px;
+    line-height: 27px;
+    border: 1px solid #cccccc;
+    padding-left: 5px;
+}
+.group-item>label {
+    width: 85px;
+    display: inline-block;
+    padding-left: 10px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.group-item>label>i{
+	font-style: normal;
+}
+.dialog>.submitBox{
+	z-index: 888;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: 0px;
+    padding: 10px 0;
+    background: #f8f8f8;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+/**
+ * 切换组织
+ * @type {[type]}
+ */
+.signdivList{padding:20px;display: none;overflow: hidden;}
+.signdivList .signdivList_box{width: 254px;height: 75px;border: 1px solid #cccccc;border-left: 10px solid #cccccc;background: #fdfdfd;cursor: pointer;float: left;margin: 10px;line-height:75px;text-align:center;}
+.signdivList .signdivList_box:hover{background: #fff;color: #7bc623;border-color: #7bc623;}
+.inport_addbtn{border-top: 1px dashed #b4b4b4;padding-top: 0px;margin: 35px 0 0 0;padding-top: 20px;text-align: center;}
+.picshow .updatebinbtn{position:absolute;}
+.regist_form_inline .describebox{margin:10px 0}
+.registerset_sidebar_content{position:relative;width:230px;height:560px;overflow:hidden;}
+.activeDataList .xiucheck{visibility: visible!important;}
+.activeDataList .xiumask{visibility: visible!important;}
+.activeDataList .xiutemplate_set{bottom:0px!important;}
+
+.loading{
+        position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -30px;
+    margin-left: -30px;
+}

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolgua.mail.mapper.MailMapper">
+
+	<resultMap id="MailMap" type="Mail">
+		<id column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="org_id" jdbcType="INTEGER" property="orgId"/>
+		<result column="from" jdbcType="VARCHAR" property="from"/>
+		<result column="from_name" jdbcType="VARCHAR" property="fromName"/>
+		<result column="reply_address" jdbcType="VARCHAR" property="replyAddress"/>
+		<result column="send_to" jdbcType="VARCHAR" property="sendTo"/>
+		<result column="subject" jdbcType="VARCHAR" property="subject"/>
+		<result column="content" jdbcType="VARCHAR" property="content"/>
+		<result column="has_attachment" jdbcType="TINYINT" property="hasAttachment"/>
+		<result column="template_id" jdbcType="VARCHAR" property="templateId"/>
+		<result column="scheduled" jdbcType="TINYINT" property="scheduled"/>
+		<result column="status" jdbcType="TINYINT" property="status"/>
+		<result column="total" jdbcType="INTEGER" property="total"/>
+		<result column="request" jdbcType="INTEGER" property="request"/>
+		<result column="channel_request" jdbcType="INTEGER" property="channelRequest"/>
+		<result column="deliver" jdbcType="INTEGER" property="deliver"/>
+		<result column="bounce" jdbcType="INTEGER" property="bounce"/>
+		<result column="soft_bounce" jdbcType="INTEGER" property="softBounce"/>
+		<result column="invalid_address" jdbcType="INTEGER" property="invalidAddress"/>
+		<result column="spam" jdbcType="INTEGER" property="spam"/>
+		<result column="repeat_address" jdbcType="INTEGER" property="repeatAddress"/>
+		<result column="open_total" jdbcType="INTEGER" property="openTotal"/>
+		<result column="unique_open" jdbcType="INTEGER" property="uniqueOpen"/>
+		<result column="click_total" jdbcType="INTEGER" property="clickTotal"/>
+		<result column="click_unique" jdbcType="INTEGER" property="clickUnique"/>
+		<result column="channel_exclusion" jdbcType="INTEGER" property="channelExclusion"/>
+		<result column="has_exclusion" jdbcType="TINYINT" property="hasExclusion"/>
+		<result column="unsubscribe" jdbcType="TINYINT" property="unsubscribe"/>
+		<result column="unsubscribe_language" jdbcType="VARCHAR" property="unsubscribeLanguage"/>
+		<result column="unsubscribe_count" jdbcType="INTEGER" property="unsubscribeCount"/>
+		<result column="replace_module" jdbcType="VARCHAR" property="replaceModule"/>
+		<result column="provider_id" jdbcType="TINYINT" property="providerId"/>
+		<result column="campaign_id" jdbcType="VARCHAR" property="campaignId"/>
+		<result column="mailing_id" jdbcType="VARCHAR" property="mailingId"/>
+		<result column="send_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="sendTime"/>
+		<result column="creator" jdbcType="VARCHAR" property="creator"/>
+		<result column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="createTime"/>
+		<result column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="updateTime"/>
+
+		<result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+		<result column="account_pass" jdbcType="VARCHAR" property="accountPass"/>
+		<result column="template_name" jdbcType="VARCHAR" property="templateName"/>
+		<result column="mail_type" jdbcType="TINYINT" property="mailType"/>
+	</resultMap>
+
+	<insert id="addMail" parameterType="Mail" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select  replace(uuid(),'-','')   from dual
+		</selectKey>
+		insert into m_mail (id, org_id, sender, sender_name, reply_address, send_to, subject, content, has_attachment, template_id, scheduled, status, total, request, invalid_address,
+		repeat_address, unsubscribe, unsubscribe_language, replace_module, provider_id, campaign_id, mailing_id, send_time, creator, create_time, update_time)
+		VALUES (#{id}, #{orgId}, #{sender}, #{senderName}, #{replyAddress}, #{sendTo}, #{subject}, #{content}, #{hasAttachment}, #{templateId}, #{scheduled}, #{status}, #{total}, #{request}, #{invalidAddress},
+		#{repeatAddress}, #{unsubscribe}, #{unsubscribeLanguage}, #{replaceModule}, #{providerId}, #{campaignId}, #{mailingId}, #{sendTime}, #{creator}, #{createTime}, #{updateTime})
+	</insert>
+
+	<update id="updateMail" parameterType="Mail">
+		update m_mail
+		<set>
+			update_time = #{updateTime},
+			<if test="status != null">status=#{status},</if>
+			<if test="request != null">request=#{request},</if>
+			<if test="channelRequest != null">channel_request=#{channelRequest},</if>
+			<if test="deliver != null">deliver=#{deliver},</if>
+			<if test="bounce != null">bounce=#{bounce},</if>
+			<if test="softBounce != null">soft_bounce=#{softBounce},</if>
+			<if test="invalidAddress != null">invalid_address=#{invalidAddress},</if>
+			<if test="spam != null">spam=#{spam},</if>
+			<if test="openTotal != null">open_total=#{openTotal},</if>
+			<if test="uniqueOpen != null">unique_open=#{uniqueOpen},</if>
+			<if test="clickTotal != null">click_total=#{clickTotal},</if>
+			<if test="clickUnique != null">click_unique=#{clickUnique},</if>
+			<if test="channelExclusion != null">channel_exclusion=#{channelExclusion},</if>
+			<if test="hasExclusion != null">has_exclusion=#{hasExclusion},</if>
+			<if test="unsubscribeCount != null">unsubscribe_count=#{unsubscribeCount},</if>
+			<if test="campaignId != null and campaignId != ''">campaign_id=#{campaignId},</if>
+			<if test="mailingId != null and mailingId != ''">mailing_id=#{mailingId},</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="findMailsByCondition" parameterType="java.util.Map" resultMap="MailMap">
+		select m.*, c.account_name, c.account_pass, t.name template_name, t.mail_type from m_mail m left join m_provider_config c on m.org_id = c.org_id
+		left join m_template t on m.template_id = t.id where t.status = 0
+		<if test="orgId != null">
+			and t.org_id = #{orgId}
+		</if>
+		<if test="templateName != null and templateName != '' ">
+			and t.name like CONCAT('%','${templateName}', '%')
+		</if>
+		<if test="templateId != null and templateId != '' ">
+			and t.id = #{templateId}
+		</if>
+		<if test="mailType != null ">
+			and t.mail_type = #{mailType}
+		</if>
+		<if test="mailId != null and mailId !=''">
+			and m.id = #{mailId}
+		</if>
+		<if test="providerId != null">
+			and m.provider_id = #{providerId}
+		</if>
+		<if test="status != null">
+			and m.status = #{status}
+		</if>
+		<if test="scheduled != null">
+			and m.scheduled = #{scheduled}
+		</if>
+		<if test="sendTime != null">
+			<![CDATA[and m.send_time > #{sendTime}]]>
+		</if>
+	</select>
+
+	<select id="getMail" parameterType="java.lang.Integer" resultMap="MailMap">
+		select * from m_mail where id = #{id}
+	</select>
+
+	<select id="findMailsByTemplate" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT m.id as mail_id, m.send_time, m.subject, m.total, IFNULL(m.request,0) as request, m.deliver, IFNULL(m.invalid_address,0) as invalid_address, m.open_total, m.unique_open
+		from m_mail m where m.template_id = #{templateId} and m.status != 3 order by m.send_time desc
+	</select>
+
+	<select id="getChartData" parameterType="java.util.Map" resultType="java.util.Map">
+		select date_format(m.send_time, '%Y-%m-%d') as send_date, sum(total) as total,
+		sum(m.request) as request, sum(m.deliver) as deliver, sum(m.invalid_address) as invalid_address
+		from m_mail m where template_id = #{templateId} and m.status != 3
+		group by send_date order by send_date desc limit 7
+	</select>
+	
+	<select id="getNotSubmit" parameterType="java.lang.String" resultType="java.util.Map">
+		select date_format(m.send_time, '%Y-%m-%d') as send_date, count(d.status) as submission from m_mail_detail_0 d left join m_mail m on m.id = d.mail_id
+		where m.template_id = #{templateId} and m.status != 3 and d.status = 0 group by send_date order by send_date desc limit 7
+	</select>
+
+	<select id="getSubmitFailure" parameterType="java.lang.String" resultType="java.util.Map">
+		select date_format(m.send_time, '%Y-%m-%d') as send_date, count(d.status) as submission from m_mail_detail_0 d left join m_mail m on m.id = d.mail_id
+		where m.template_id = #{templateId} and m.status != 3 and d.status = 2 group by send_date order by send_date desc limit 7
+	</select>
+
+	<select id="getSubmitSuccess" parameterType="java.lang.String" resultType="java.util.Map">
+		select date_format(m.send_time, '%Y-%m-%d') as send_date, count(d.status) as submission from m_mail_detail_0 d left join m_mail m on m.id = d.mail_id
+		where m.template_id = #{templateId} and m.status != 3 and d.status not in(0,2) group by send_date order by send_date desc limit 7
+	</select>
+</mapper>

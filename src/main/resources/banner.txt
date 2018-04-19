@@ -1,0 +1,150 @@
+系统名称：云邮件
+当前版本：v1.0
+
+-----------------接口说明------------------
+邮件服务商(1sendcloud 2webpower)
+模板状态(0进行中 1已关闭 2已删除)
+数据源(0本地上传 1外部数据源)
+邮件状态(1等待发送 2已发送 3已删除)
+邮件类型(0标准邮件 1个性邮件)
+邮件详细状态(0未提交 1已提交 2提交失败 3已送达 4无效邮址 5重复邮址 6硬退 7软退 8垃圾邮件 9退订 10已打开 11已点击)
+邮件事件(0init 1request 2submitFailure 3deliver 4invalid 5repeatAddress 6bounce 7softBounce 8spam 9unsubscribe 10open 11click)
+
+1、添加帐号配置 /interface/config/{fp}/{orgId}/{userId}/addOrUpdate  [POST]
+  request : {"providerId":1, "accountName":"postmaster@coolgua-demo.sendcloud.org", "accountPass":"JdKvObyYo3RDa3Rr"}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+
+2、获取邮件提供商帐号  /interface/config/{fp}/{orgId}/{userId}/getConfig  [GET]
+  request :
+  response : {"code":200,"list":null,"map":{"config":{"id":"35ec92a0033b11e8bb1b902b343c99fd","orgId":96,"providerId":1,"accountName":"postmaster@coolgua-demo.sendcloud.org","accountPass":"JdKvObyYo3RDa3Rr","creator":null,"mender":null,"createTime":1517041344000,"updateTime":null},"mailProviders":{"2":"webpower","1":"sendcloud"}},"message":"","data":null}
+
+3、添加外部数据源 /interface/config/{fp}/{orgId}/{userId}/datasource/add [POST]
+  request : {"name":"外部数据源", "fields":"姓名,公司,邮箱"}
+  response : 500 {"code":500,"list":null,"map":null,"message":"添加数据源失败","data":null}
+             200 {"code":200,"list":null,"map":null,"message":"","data":null}
+
+4、获得外部数据源列表 /interface/config/{fp}/{orgId}/{userId}/datasource/list [GET]
+  request : {"page":1, "size": 10}
+  response : {"code":200,"list":null,"map":{"page":{"pageNum":1,"pageSize":10,"size":2,"startRow":1,"endRow":2,"total":2,"pages":1,"list":[{"id":"6c180b76058311e8bb1b902b343c99fd","orgId":96,"name":"外部数据源","dsType":1,"fields":"姓名,公司,邮箱","deleted":false},
+  {"id":"e94f20ca049811e8bb1b902b343c99fd","orgId":96,"name":"测试数据源","dsType":1,"fields":"姓名,邮箱","deleted":false}],"prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"lastPage":1,"firstPage":1},"type":1},"message":"","data":null}
+
+5、获得历史邮件模板 /interface/template/{fp}/{orgId}/{userId}/list/history [GET]
+  request :
+  response : {"code":200,"list":null,"map":null,"message":"","data":[]}
+
+6、获得模板信息 /interface/template/{fp}/{orgId}/{userId}/get/{id} [GET]
+  request :
+  response : {"code":200,"list":null,"map":null,"message":"","data":{"id":"359042b805c811e8bb1b902b343c99fd","orgId":96,"name":"邮件模板1","dsId":"6c180b76058311e8bb1b902b343c99fd","dsType":1,"mailField":null,"mailType":0,"replaceField":null,"senderName":"hejia","senderAddress":"hejia@coolgua.com","replyAddress":"postmaster@coolgua-demo.sendcloud.org","subject":"邮件主题",
+  "content":"您好,这是测试邮件，请忽略","status":0,"scheduled":false,"sendTime":null,"unsubscribe":false,"unsubscribeLanguage":null,"creator":"1","createTime":1517321806000,"mender":null,"updateTime":null}}
+
+7、获得邮件模板(任务)列表 /interface/template/{fp}/{orgId}/{userId}/list [GET]
+  request : (非必需){"name":null, "mailType":null, "dsType":null, "status":0, "startTime":null, "endTime":null, "page":1, "size": 10}
+  response: {"code":200,"list":null,"map":{"startTime":null,"template":{"id":null,"orgId":96,"name":null,"dsId":null,"dsType":null,"mailField":null,"mailType":null,"replaceField":null,"senderName":null,"senderAddress":null,"replyAddress":null,"subject":null,"content":null,"status":0,"scheduled":false,"sendTime":null,"unsubscribe":false,"unsubscribeLanguage":null,"creator":null,"createTime":null,"mender":null,"updateTime":null},
+  "page":{"pageNum":1,"pageSize":10,"size":1,"startRow":1,"endRow":1,"total":1,"pages":1,
+  "list":[{"id":"359042b805c811e8bb1b902b343c99fd","orgId":96,"name":"邮件模板1","dsId":"6c180b76058311e8bb1b902b343c99fd","dsType":1,"mailField":null,"mailType":0,"replaceField":null,"senderName":"hejia","senderAddress":"hejia@coolgua.com","replyAddress":"postmaster@coolgua-demo.sendcloud.org","subject":"邮件主题","content":"您好,这是测试邮件，请忽略","status":0,"scheduled":false,"sendTime":null,"unsubscribe":false,"unsubscribeLanguage":null,"creator":"1","createTime":1517321806000,"mender":null,"updateTime":null}],
+  "prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"firstPage":1,"lastPage":1},"endTime":null,"dataSourceTypes":["LOCAL","EXTERNAL"]},"message":"","data":null}
+  字段          名称          值类型           说明
+   status       模板状态        整型            0进行中 1已关闭 2已删除
+
+8、添加邮件模板 /interface/template/{fp}/{orgId}/{userId}/add [POST]
+  request :
+    外部数据源,标准邮件 {"name":"邮件模板1", "providerId":1, "dsId":"6c180b76058311e8bb1b902b343c99fd", "dsType":1, "mailType":0, "senderName":"hejia", "mailField":"邮箱", "senderAddress":"hejia@coolgua.com", "replyAddress":"postmaster@coolgua-demo.sendcloud.org", "subject":"邮件主题", "content":"您好,这是测试邮件，请忽略", "scheduled":0, "unsubscribe":0, "attachs[]":"附件1.xls,http://pan.coolgua.com/tempory/12.xls", "attachs[]":"附件2.xls,http://pan.coolgua.com/tempory/23.xls"}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+  字段          名称          值类型           说明
+  dsType      数据源           整型            0本地上传 1外部数据源  选择外部数据源dsId即所选数据源id
+  mailType    邮件类型         整型            0标准邮件1个性邮件
+  scheduled    是否定时         整型             1是0否 如果是还需要添加 sendTime日期类型参数
+  unsubscribe 是否添加退订     整型             1是0否 如果是还需添加 unsubscribeLanguage参数 值("cn","en")
+  attachs     附件            数组            数组元素由原附件名称和云盘返回的地址组成,以","分割
+  campaignId  活动id          整数            邮件服务商为webpower时必填，值来自webpower平台
+  mailField   邮箱字段        字符串
+  dsFilePath  本地数据源地址   字符串         如果数据源类型是本地上传则需要此参数
+
+9、复制模板 /interface/template/{fp}/{orgId}/{userId}/copy [POST]
+  request :
+    外部数据源,标准邮件 {"name":"邮件模板2", "dsId":"6c180b76058311e8bb1b902b343c99fd", "dsType":1, "mailType":0, "senderName":"hejia", "senderAddress":"hejia@coolgua.com", "replyAddress":"postmaster@coolgua-demo.sendcloud.org", "subject":"邮件主题2", "content":"您好,这是测试邮件，请忽略", "scheduled":0, "unsubscribe":0}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+
+10、开启、关闭、删除单个任务 /interface/template/{fp}/{orgId}/{userId}/single/{id} [POST]
+  request : {"status" : 0}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+             {"code":400,"list":null,"map":null,"message":"开启邮件任务失败","data":null}
+  字段          名称          值类型           说明
+  status        邮件状态        整型            0进行中(开启) 1关闭 2删除
+
+11、批量开启、关闭、删除任务  /interface/template/{fp}/{orgId}/{userId}/batch [POST]
+  request : {"ids[]":"1ff87dd4063211e8bb1b902b343c99fd", "ids[]":"359042b805c811e8bb1b902b343c99fd", "status" : 1}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+             {"code":400,"list":null,"map":null,"message":"批量关闭邮件任务失败","data":null}
+
+13、获取数据源中的邮箱字段  /interface/template/{fp}/{orgId}/{userId}/getDataSource/{id} [GET]
+  request :
+  response 400: {"code":400,"list":null,"map":null,"message":"未找到邮箱关键字","data":null}
+  response 200: {"code":200,"list":null,"map":null,"message":"","data":["邮箱"]}
+
+14、添加到黑名单  /interface/blacklist/{fp}/{orgId}/{userId}/add [POST]
+  request : {"recipient":"hejia@coolgua.com", "event": "invalid"}
+  response : {"code":200,"list":null,"map":null,"message":"","data":null}
+
+15、 黑名单列表 /interface/blacklist/{fp}/{orgId}/{userId}/list [GET]
+  request : {"recipient" : "hejia@coolgua.com", "page":1, "size":20}
+  response : {"code":200,"list":null,"map":{"page":{"pageNum":1,"pageSize":10,"size":1,"startRow":1,"endRow":1,"total":1,"pages":1,"list":[{"id":"3ed3ae62068d11e8bb1b902b343c99fd","orgId":96,"recipient":"hejia@coolgua.com","event":"4","creator":"1","createTime":1517406431000}],
+  "prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"firstPage":1,"lastPage":1},
+  "mailEventMap":{"repeatAddress":"重复邮址","open":"已打开","submitFailure":"提交失败","invalid":"无效邮址","deliver":"已送达","request":"提交成功","click":"已点击","init":"未提交","softBounce":"软退信","spam":"垃圾邮箱","unsubscribe":"已退订","bounce":"退信"}},"message":"","data":null}
+
+16、移除黑名单 /interface/blacklist/{fp}/{orgId}/{userId}/remove [POST]
+  request : {"ids[]" : "3ed3ae62068d11e8bb1b902b343c99fd", "ids[]" : "3ed3ae62068d11e8bb1b902b343c99fde"}
+  response :{"code":200,"list":null,"map":null,"message":"","data":null}
+
+17、获取发送中的邮件列表 /interface/mail/{fp}/{orgId}/{userId}/list  [GET]
+  request : {"templateName":null, "mailType":null, "recipient":null, "page":1, "size":20}
+  response : {"code":200,"list":null,"map":{"page":{"pageNum":1,"pageSize":10,"size":3,"startRow":1,"endRow":3,"total":3,"pages":1,
+  "list":[{"id":"4f87941007ed11e8bb1b902b343c99fd","mailId":"4f2b97b407ed11e8bb1b902b343c99fd","providerId":1,"status":1,"event":"request","scheduled":false,"shardingCategory":0,"recipient":"hejia@coolgua.com","emailId":"1517557645730_805_24660_9251.sc-10_9_40_164-inbound2$hejia@coolgua.com","replaceModule":null,"remotedata":null,"open":0,"lastOpenTime":null,"replaceJson":null,"unsubscribe":false,"unsubscribeTime":null,"createTime":1517557643000,"updateTime":1517557643000,"deleted":false,"templateName":"邮件模板1","mailType":"0","subject":"邮件主题","sendTime":null},
+  {"id":"4f87973a07ed11e8bb1b902b343c99fd","mailId":"4f2b97b407ed11e8bb1b902b343c99fd","providerId":1,"status":1,"event":"request","scheduled":false,"shardingCategory":1,"recipient":"lihongde@coolgua.com","emailId":"1517557645730_805_24660_9251.sc-10_9_40_164-inbound1$lihongde@coolgua.com","replaceModule":null,"remotedata":null,"open":0,"lastOpenTime":null,"replaceJson":null,"unsubscribe":false,"unsubscribeTime":null,"createTime":1517557643000,"updateTime":1517557643000,"deleted":false,"templateName":"邮件模板1","mailType":"0","subject":"邮件主题","sendTime":null},
+  {"id":"4f87984807ed11e8bb1b902b343c99fd","mailId":"4f2b97b407ed11e8bb1b902b343c99fd","providerId":1,"status":1,"event":"request","scheduled":false,"shardingCategory":2,"recipient":"460847871@qq.com","emailId":"1517557645730_805_24660_9251.sc-10_9_40_164-inbound0$460847871@qq.com","replaceModule":null,"remotedata":null,"open":0,"lastOpenTime":null,"replaceJson":null,"unsubscribe":false,"unsubscribeTime":null,"createTime":1517557643000,"updateTime":1517557643000,"deleted":false,"templateName":"邮件模板1","mailType":"0","subject":"邮件主题","sendTime":null}],
+  "prePage":0,"nextPage":0,"isFirstPage":true,"isLastPage":true,"hasPreviousPage":false,"hasNextPage":false,"navigatePages":8,"navigatepageNums":[1],"navigateFirstPage":1,"navigateLastPage":1,"firstPage":1,"lastPage":1},"mailDetailStatus":{"0":"未提交","1":"提交成功","2":"提交失败","3":"已送达","4":"无效邮址","5":"重复邮址","6":"退信","7":"软退信","8":"垃圾邮箱","9":"已退订","10":"已打开","11":"已点击"}},"message":"","data":null}
+
+18、任务概览 /interface/template/{fp}/{orgId}/{userId}/overview/{id} [GET]
+  request :
+  response : {"code":200,"list":null,"map":{"mails":[{"mail_id":"4f2b97b407ed11e8bb1b902b343c99fd", "total":3,"submit_success_per":"100.00%","unique_open":0,"open_total":0,"subject":"邮件主题","submit_failure_percent":"0.00%","invalid_address":0,"not_submit":0,"send_time":1517567454000,"submit_success":3,"deliver":0,"request":3,"submit_failure":0,"not_submit_percent":"0.00%"}],
+  "chartData":[{"not_submit":0,"total":3,"deliver":0,"submit_success":3,"request":3,"send_date":"2018-02-02","invalid_address":0,"submit_failure":0}],
+  "templateTotalMap":{"submitFailure":0,"submitSuccessPer":"100.00%","submitSuccess":3,"notSubmitPer":"0.00%","deliver":0,"submitFailurePer":"0.00%","request":3,"openTotal":0,"uniqueOpen":0,"invalidAddress":0,"notSubmit":0,"templateTotal":3}},"message":"","data":null}
+
+19、上传邮件附件 /mail/file/{fp}/{orgId}/{userId}/uploadMailAttachments [POST]
+  request : {"file" : "11.png"}
+  response : {"code":200,"list":null,"map":{"address":"http://pan.coolgua.com:202/pan/v1/96/mail/1/892d78042bc550618b06924ca6b771c4/download/5a782acbb570d0128584e320"},"message":"","data":null}
+
+20、上传本地数据源 /mail/file/{fp}/{orgId}/{userId}/uploadLocalSource [POST]
+  request : {"file" : "本地数据源.xlsx"}
+  response : {"code":200,"list":null,"map":{"address":"http://pan.coolgua.com:202/pan/v1/96/mail/1/892d78042bc550618b06924ca6b771c4/download/5a782acbb570d0128584e320", "fiels":["姓名","公司","地址","手机","邮箱"]},"message":"","data":null}
+             {"code":500,"list":null,"map":null,"message":"上传文件失败","data":null}
+
+
+
+
+----------对接CRM接口说明----------
+1、获得历史邮件模板  mail_getTemplateList.html
+ request: {"module":"contact", "ifCheckAll":0, "dataIds":["1","2"]}
+ response : 200 {"success":true,"templates":[{"id":"0e8d7ac2067311e8bb1b902b343c99fd","orgId":96,"name":"邮件模板1","dsId":"6c180b76058311e8bb1b902b343c99fd","dsType":1,"dsFilePath":null,"mailField":"邮箱","mailType":0,"replaceField":null,"senderName":"hejia","senderAddress":"hejia@coolgua.com",
+ "replyAddress":"postmaster@coolgua-demo.sendcloud.org","subject":"邮件主题","content":"您好,这是测试邮件，请忽略","status":0,"scheduled":false,"sendTime":null,"unsubscribe":false,"unsubscribeLanguage":null,"campaignId":null,"creator":"1","creatorName":null,"createTime":1517395184000,"mender":null,"updateTime":null,"providerId":1,"attachments":null},
+ {"id":"92427662067111e8bb1b902b343c99fd","orgId":96,"name":"邮件模板1","dsId":"6c180b76058311e8bb1b902b343c99fd","dsType":1,"dsFilePath":null,"mailField":"邮箱","mailType":0,"replaceField":null,"senderName":"hejia","senderAddress":"hejia@coolgua.com","replyAddress":"postmaster@coolgua-demo.sendcloud.org","subject":"邮件主题","content":"您好,这是测试邮件，请忽略","status":0,
+ "scheduled":false,"sendTime":null,"unsubscribe":false,"unsubscribeLanguage":null,"campaignId":null,"creator":"1","creatorName":null,"createTime":1517394546000,"mender":null,"updateTime":null,"providerId":1,"attachments":null}],"dataSources":[{"id":"6c180b76058311e8bb1b902b343c99fd","orgId":96,"name":"外部数据源","dsType":1,"fields":"姓名,公司,邮箱","deleted":false},
+ {"id":"e94f20ca049811e8bb1b902b343c99fd","orgId":96,"name":"测试数据源","dsType":1,"fields":"姓名,邮箱","deleted":false}], "providerId":1}
+            500 {"success":false, "msg":"未找到模板数据"}
+
+2、根据模板id获取模板信息 mail_getTemplateById.html
+  request : {"templateId" : "0e8d7ac2067311e8bb1b902b343c99fd"}
+  response : 200 {"template":{"createTime":1519801213000,"senderAddress":"hejia@coolgua.com","campaignId":"4213","subject":"测试主题","mailType":0,"creator":"1","mender":null,"orgId":96,"id":"0507c69c1c5311e8a716902b343c99fd","replaceField":null,"name":"webpower测试模板","unsubscribeLanguage":"cn","attachments":[],"sendTo":null,"updateTime":null,
+  "status":0,"dsFilePath":null,"sendTime":null,"dsType":1,"dsId":"c3899d961c3211e8a716902b343c99fd","replyAddress":"hejia@coolgua.com","content":"<p>这是一封测试邮件，请忽略！<\/p>","scheduled":false,"senderName":"贺佳","creatorName":"post","mailField":"邮箱","providerId":null,"unsubscribe":true},"success":true}
+             500 {"success" : false, "msg":"系统错误，请联系系统管理员"}
+
+3、发送邮件 mail_sendMail.html
+  request : 选择了历史模板 {"templateId":"0e8d7ac2067311e8bb1b902b343c99fd", "sendTo": ["123@coolgua.com", "238387887787@qq.com"]}
+            没有选择历史模板参数同创建模板的参数
+  response：{"success":true, "msg": "提交成功"}
+            {"success":false, "msg":"提交失败"}
+
+
+
+
+

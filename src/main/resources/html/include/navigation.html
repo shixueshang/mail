@@ -1,0 +1,23 @@
+<div class="navigation-bar">
+  <div class="mincontainner">
+    <label class="title" id="tasking-category">
+        <a href="index.html">发送中的邮件</a>
+    </label>
+    <label class="title" id="task-list-category">
+        <a href="mail_list.html">邮件任务列表</a>
+    </label>
+    <label class="title" id="task-black-category">
+        <a href="black_list.html">黑名单</a>
+    </label>
+  </div>
+</div>
+<script>
+    var item = location.pathname.split('/')[1]
+    if(item == "index.html") {
+        $('#tasking-category').addClass('active')
+    }else if(item == "mail_list.html" || item == "mail_create.html" || item == "mail_view.html" || item == "mail_detail.html") {
+        $('#task-list-category').addClass('active')
+    }else{
+        $('#task-black-category').addClass('active')
+    }
+</script>

@@ -1,0 +1,22 @@
+{
+ "pageNo": 1,
+ "pageSize": 10,
+ "result": [
+	{"openid": "ceshi1", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi2", "wxname": "liul2", "account" : "huangxiao2", "password": "1233456", "compamy": "苦瓜网络公司2", "username":"lixiaoping2", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi3", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi4", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi5", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi6", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi7", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi1", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi2", "wxname": "liul2", "account" : "huangxiao2", "password": "1233456", "compamy": "苦瓜网络公司2", "username":"lixiaoping2", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi3", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi4", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi5", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"},
+	{"openid": "ceshi6", "wxname": "liul1", "account" : "huangxiao1", "password": "1233457", "compamy": "苦瓜网络公司1", "username":"lixiaoping1", "phone":"13317194243", "email":"7611317041@qq.com"}
+ ],
+ "startRecord": 1,
+ "totalCount": 5,
+ "totalPage": 1
+}

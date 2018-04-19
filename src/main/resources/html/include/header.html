@@ -1,0 +1,208 @@
+<div id="header" class="header">
+  <div class="containner">
+    <div class="project-menu-list">
+      <span class="icon" onclick="showProjectMenu(this,event)">
+        <img src="common/image/project.png" class="project-pic">
+      </span>
+      <div class="drop_login_info" style="display: none;">
+        <ul id="tool-item">
+            
+        </ul>
+      </div>
+    </div>
+    <div class="header-content clearfix">
+      <div class="navigation">
+        <ul class="primary-nav">
+          <li>
+            <div class="login_infomation">
+              <label class="login_infomation_lab"><span class="userName"></span><span class="icon-jibenxinxi col_settle_icon"></span>
+                <div class="drop_login_info" style="display: none;">
+                  <ul>
+                    <li><a href="javascript:void(0);" class="companyName"></a></li>
+                    <li><a href="javascript:void(0);" onclick="changeOrgModule();">切换组织</a></li>
+                    <li><a href="config_list.html">配置</a></li>
+                    <li><a href="javascript:void(0);" onclick="logout();">注销</a></li>
+                  </ul>
+                </div>
+              </label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+   <input type="hidden" value="" id="projectId">
+</div>
+
+<div class="signdivList">
+  <div class="signdivList_box" onclick="changeOrg('7')">
+    <span class="innersp">广州市艺帆展览服务有限公司</span>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+    var taffs = false;
+    $('.col_settle_icon').bind('click',function(event){
+      if(!taffs){
+        $(this).siblings('.drop_login_info').show();
+        taffs = true;
+      }else{
+        $(this).siblings('.drop_login_info').hide();
+        taffs = false;
+      }
+      event.stopPropagation();
+    }); 
+    $('body').click(function(){
+      $('.drop_login_info').hide();
+      taffs = false;
+    });
+    getSponsor()  
+  });
+
+  function getSponsor() {
+    var url = getTokenUrl()+"/getUserInfo.action"
+    $.ajax({
+      url: url,
+      async: false,
+      type: "GET",
+      dataType: "json", //指定服务器返回的数据类型
+      success: function (data) {
+        if(data.success){
+          var ret = data.data;
+          userId = ret.userId;
+          accountName = ret.accountName;
+          userName = ret.userName;
+          setCookie('userId', userId);
+          $('.userName').html(userName);
+          getCurOrg()
+          getCoolguaTool()
+        }else{
+          layer.msg('服务器异常',{time:1300}, function(){
+            location.href = ssoLink[ssoLink.default]
+          })
+        }
+      },
+      error : function(error){
+        layer.msg('服务器异常',{time:1300}, function(){
+          location.href = ssoLink[ssoLink.default]
+        })
+      }
+    });
+  }
+
+
+  function getCurOrg() {
+    var url = getTokenUrl()+"/getCurOrg/"+userId+".action"
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: "json", //指定服务器返回的数据类型
+      success: function (data) {
+        companyName = data.data.companyName;
+        $('.companyName').html(companyName);
+        orgId = data.data.id;
+        setCookie('orgId', data.data.id);
+      }
+    });
+  }
+
+  function getCoolguaTool() {
+    var url = getTokenUrl()+"/getConfigInfo/"+userId+".action"
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: "json", //指定服务器返回的数据类型
+      success: function (data) {
+        var urls = data.data.urls;
+        var html = '';
+        var mLen = 0;
+        for(key in urls){
+          var patt1 = new RegExp('.net');
+          var result = patt1.test(key);
+          if(result){
+            mLen++
+          }
+          html += '<li><a target="_blank" href="'+key+'">'+urls[key]+'</a></li>'
+        }
+        if(mLen){
+          ssoLink.default = 'net'
+        }
+        $('#tool-item').html(html)
+      }
+    });
+  }
+
+  var popDialog;
+  function changeOrgModule() {
+    var url = getTokenUrl()+"/getUserOrgs/"+userId+".action?callback=getOrgsData"
+    getJsonp(url)
+    return false;
+  };
+
+  function getOrgsData(data){
+    if(!data.success){
+      return
+    }
+    var orgs = data.data;
+    var table = '<div class="signdivList" style="display:block">';   
+    for (var i = 0; i < orgs.length; i++) {
+      table += '<div class="signdivList_box" onclick="changeOrg(\''+orgs[i]['id']+'\')"><span class="innersp">'+orgs[i]['companyName']+'</span></div>';
+    }
+    table += '</div>';
+    layer.open({
+      type : 1,
+      title : '切换组织',
+      area : ['610px', 'auto'],
+      content : table
+    });
+  }
+  
+  function changeOrg(orgId){
+    var url = getTokenUrl()+"/saveCurOrg/"+orgId+".action?callback=changeOrgData"
+    getJsonp(url)
+    return false;
+  }
+
+  function changeOrgData(data){
+    if(data.success){
+      setCookie('orgId', data.data.id)
+      location.reload() 
+    }else{
+      alert(data.msg);
+      //location.href = '${ssoBaseUrl}';
+    }
+  }
+  
+  function closeDialog(){
+    if(popDialog != null && popDialog != undefined){
+      popDialog.close();
+    }
+  }
+  
+  function logout(){
+    var url = getTokenUrl()+"/logout.action"
+    $.ajax({
+      url: url,
+      type: "GET",
+      dataType: "jsonp", //指定服务器返回的数据类型
+      success: function (data) {
+        if(!data.success){
+          layer.msg(data.msg)
+          return
+        }
+        delCookie('fp');
+        delCookie('orgId');
+        delCookie('userId');
+        layer.msg("注销成功",{time: 1300}, function(){
+          location.href = ssoLink[ssoLink.default];
+        })
+      }
+    });
+  }
+  
+  function showProjectMenu(obj,event){
+    $(obj).siblings('.drop_login_info').toggle();
+    event.stopPropagation();
+  }
+</script>

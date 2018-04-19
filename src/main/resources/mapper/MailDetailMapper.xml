@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolgua.mail.mapper.MailDetailMapper">
+
+  <resultMap id="MailDetailMap" type="MailDetail">
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="mail_id" jdbcType="VARCHAR" property="mailId"/>
+    <result column="provider_id" jdbcType="TINYINT" property="providerId"/>
+    <result column="status" jdbcType="TINYINT" property="status"/>
+    <result column="event" jdbcType="CHAR" property="event"/>
+    <result column="scheduled" jdbcType="TINYINT" property="scheduled"/>
+    <result column="sharding_category" jdbcType="TINYINT" property="shardingCategory"/>
+    <result column="recipient" jdbcType="VARCHAR" property="recipient"/>
+    <result column="email_id" jdbcType="VARCHAR" property="emailId"/>
+    <result column="remote_data" jdbcType="VARCHAR" property="remotedata"/>
+    <result column="open" jdbcType="TINYINT" property="open"/>
+    <result column="last_open_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="lastOpenTime"/>
+    <result column="replace_json" jdbcType="VARCHAR" property="replaceJson"/>
+    <result column="unsubscribe" jdbcType="TINYINT" property="unsubscribe"/>
+    <result column="unsubscribe_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="unsubscribeTime"/>
+    <result column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="createTime"/>
+    <result column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="updateTime"/>
+
+    <result column="template_name" jdbcType="VARCHAR" property="templateName"/>
+    <result column="mail_type" jdbcType="TINYINT" property="mailType"/>
+    <result column="subject" jdbcType="VARCHAR" property="subject"/>
+    <result column="send_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="sendTime"/>
+  </resultMap>
+
+  <insert id="addMailDetail" parameterType="MailDetail">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into m_mail_detail (id, mail_id, provider_id, status, event, scheduled, sharding_category, recipient, email_id, remote_data, open, last_open_time, replace_json, unsubscribe,
+    unsubscribe_time, create_time, update_time)
+    VALUES (#{id}, #{mailId}, #{providerId}, #{status}, #{event}, #{scheduled}, #{shardingCategory}, #{recipient}, #{emailId}, #{remotedata}, #{open}, #{lastOpenTime},
+    #{replaceJson}, #{unsubscribe}, #{unsubscribeTime}, #{createTime}, #{updateTime})
+  </insert>
+
+  <update id="updateMailDetail" parameterType="MailDetail">
+    update m_mail_detail
+    <set>
+      update_time = #{updateTime},
+      status = #{status},
+      event = #{event}
+    </set>
+    where id = #{id}
+  </update>
+
+  <insert id="batchAddMailDetails" parameterType="java.util.List">
+    insert into m_mail_detail (id, mail_id, provider_id, status, event, scheduled, sharding_category, recipient, email_id, create_time, update_time) values
+    <foreach collection="mailDetails" item="detail" index="index" separator=",">
+      ((select replace(uuid(), '-', '') as id), #{detail.mailId}, #{detail.providerId}, #{detail.status}, #{detail.event}, #{detail.scheduled}, #{detail.shardingCategory},
+      #{detail.recipient}, #{detail.emailId}, #{detail.createTime}, #{detail.updateTime})
+    </foreach>
+  </insert>
+
+  <update id="batchUpdateMailDetails" parameterType="list">
+    <foreach collection="details" item="detail" index="index" separator=";">
+      update m_mail_detail
+      <set>
+        status = #{detail.status}, event = #{detail.event}, update_time = #{detail.updateTime}
+      </set>
+      where mail_id = #{detail.mailId}
+    </foreach>
+  </update>
+
+  <select id="findMailDetailsByCondition" parameterType="java.util.Map" resultMap="MailDetailMap">
+    select d.* from m_mail_detail d where d.deleted = 0
+    <if test="detailStatus != null ">
+      and d.status = #{detailStatus}
+    </if>
+    <if test="scheduled != null">
+      and d.scheduled = #{scheduled}
+    </if>
+    <if test="shardingCategory != null">
+      and d.sharding_category = #{shardingCategory}
+    </if>
+    <if test="recipient != null and recipient !=''">
+      and d.recipient like CONCAT('%','${recipient}', '%')
+    </if>
+    <if test="mailId != null and mailId !=''">
+      and d.mail_id = #{mailId}
+    </if>
+  </select>
+
+</mapper>

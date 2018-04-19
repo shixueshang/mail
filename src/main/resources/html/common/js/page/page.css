@@ -1,0 +1,25 @@
+/* * 
+	@description: 分页公共样式  
+	@author: huangxiao  
+*/
+
+.progresspage .progress_ul{
+	display: inline-block;
+    padding: 10px 10px 10px 0;
+    margin: 60px 0 20px 0;
+}
+.progresspage .progress_ul li{cursor:pointer;display:inline-block;color:#5f6468;padding:0 5px;height: 19px;line-height: 19px;}
+.progresspage .progress_ul li select{width:54px;height: 19px;border:none;border:1px solid #bbbbc1;margin:0 5px;text-align: center;}
+.progresspage .progress_ul li input{width:54px;height: 19px;border:none;border:1px solid #bbbbc1;margin:0 5px;text-align: center;}
+.progresspage .progress_ul li .up{width: 15px;height: 7px;background: url(../image/show_icon.png) no-repeat;background-position: -39px -58px;display: block;position: absolute;right: 21px;top: 1px;z-index: 444;background:none;}
+.progresspage .progress_ul li .down{width: 15px;height: 7px;background: url(../image/show_icon.png) no-repeat;background-position: -39px -69px;display: block;position: absolute;right: 21px;bottom: -1px;z-index: 444;background:none;}
+.progresspage .progress_ul .turnpage{position: relative;}
+.progresspage .leadTobtn{cursor:pointer;border: 1px solid #7cc623;border-radius: 5px;background: #fff;font-size: 12px;}
+.progresspage .progress_ul li a.active{color: #7cc623;font-weight:bold;}
+.progresspage .progress_ul>a{margin:0 5px;}
+
+.progresspageDialog .progress_ul {
+    display: inline-block;
+    padding: 10px 10px 10px 0;
+    margin: 10px 0 0px 0;
+}

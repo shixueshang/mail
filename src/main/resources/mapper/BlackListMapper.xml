@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolgua.mail.mapper.BlackListMapper">
+
+	<resultMap id="BlackListMap" type="BlackList">
+		<id column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="org_id" jdbcType="INTEGER" property="orgId"/>
+		<result column="recipient" jdbcType="VARCHAR" property="recipient"/>
+		<result column="event" jdbcType="VARCHAR" property="event"/>
+		<result column="creator" jdbcType="VARCHAR" property="creator"/>
+		<result column="creator_name" jdbcType="VARCHAR" property="creatorName"/>
+		<result column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="createTime"/>
+	</resultMap>
+
+	<insert id="addBlackList" parameterType="BlackList" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select  replace(uuid(),'-','')   from dual
+		</selectKey>
+		insert into m_black_list (id, org_id, recipient, event, creator, creator_name, create_time)
+		VALUES (#{id}, #{orgId}, #{recipient}, #{event}, #{creator}, #{creatorName}, #{createTime})
+	</insert>
+
+	<select id="findBlackList" parameterType="java.lang.String" resultMap="BlackListMap">
+		select * from m_black_list where org_id = #{orgId}
+			<if test="recipient != null and recipient != ''">
+				and recipient like CONCAT('%','${recipient}', '%')
+			</if>
+	</select>
+
+	<delete id="remove" parameterType="java.util.List">
+		delete from m_black_list where id in
+		<foreach collection="ids" item="id" index="id"  open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

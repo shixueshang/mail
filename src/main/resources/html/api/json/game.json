@@ -1,0 +1,36 @@
+{
+"list": [
+	{
+	 "targetSystem":"大转盘",
+	 "field": [
+	 	{"id":"1","name": "name", "cname":"姓名", "required": 1},
+	 	{"id":"2","name": "email","cname":"邮箱", "required": 0},
+	 	{"id":"3","name":"accuntname","cname":"账号","required": 0},
+	 	{"id":"4","name":"mobile","cname":"手机","required": 1},
+	 	{"id":"5","name":"password","cname":"密码","required": 0}
+	 ]
+	},
+	{
+	 "targetSystem":"竞拍",
+	 "field": [
+	 	{"id":"1","name": "name", "cname":"姓名", "required": 1},
+	 	{"id":"2","name": "email","cname":"邮箱", "required": 0},
+	 	{"id":"3","name":"accuntname","cname":"账号","required": 0},
+	 	{"id":"4","name":"mobile","cname":"手机","required": 1},
+	 	{"id":"5","name":"password","cname":"密码","required": 0}
+	 ] 
+	},
+	{
+	 "targetSystem":"投票",
+	 "field": [
+	 	{"id":"1","name": "name", "cname":"姓名", "required": 1},
+	 	{"id":"2","name": "email","cname":"邮箱", "required": 0},
+	 	{"id":"3","name":"accuntname","cname":"账号","required": 0},
+	 	{"id":"4","name":"mobile","cname":"手机","required": 1},
+	 	{"id":"5","name":"password","cname":"密码","required": 0}
+	 ]
+	}
+],
+"quest":{"id":"2313", "name":"姓名", "contact":"联系人", "sex":"性别","card":"证件号码","email":"邮箱","mobile":"手机"},
+"success": true
+}

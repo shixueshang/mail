@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.coolgua.mail.mapper.DataSourceMapper">
+  <resultMap id="DataSourceMap" type="DataSource">
+    <id column="id" jdbcType="VARCHAR" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="ds_type" jdbcType="TINYINT" property="dsType"/>
+    <result column="fields" jdbcType="VARCHAR" property="fields"/>
+    <result column="org_id" jdbcType="INTEGER" property="orgId"/>
+    <result column="deleted" jdbcType="TINYINT" property="deleted"/>
+  </resultMap>
+
+  <insert id="addDataSource" parameterType="DataSource">
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+      select replace(uuid(),'-','') from dual
+    </selectKey>
+    insert into m_data_source (id, org_id, name, ds_type, fields, deleted)
+    values
+    (#{id}, #{orgId}, #{name}, #{dsType}, #{fields}, #{deleted})
+  </insert>
+
+  <select id="findDataSourcesByCondition" parameterType="java.util.HashMap" resultMap="DataSourceMap">
+    select * from m_data_source
+    where org_id = #{orgId}
+    <if test="dsType != null">
+      and ds_type = #{dsType}
+    </if>
+    <if test="name != null">
+      and name = #{name}
+    </if>
+  </select>
+
+  <select id="getDataSource" parameterType="java.lang.String" resultMap="DataSourceMap">
+		select * from m_data_source where id = #{id}
+	</select>
+
+  <update id="updateDataSource" parameterType="DataSource">
+		update m_data_source set fields = #{fields} where id = #{id}
+	</update>
+</mapper>

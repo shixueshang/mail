@@ -1,0 +1,8 @@
+{
+ "data": {
+	"taskType": "触发同步",
+	"source": "xiu.coolgua.net",
+ 	"targetSystem": ["http://pay.coolgua.com", "http://jd.coolgua.com:202", "http://xiutest.coolgua.com:202", "http://gpm.coolgua.com:202", "http://track.coolgua.com:202", "http://games.coolgua.com:202/login/gotoLuckdraw/"],
+ },
+ "success": true
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coolgua.mail.mapper.ProviderConfigMapper">
+
+	<resultMap id="ProviderConfigMap" type="ProviderConfig">
+		<id column="id" jdbcType="VARCHAR" property="id"/>
+		<result column="org_id" jdbcType="INTEGER" property="orgId"/>
+		<result column="provider_id" jdbcType="TINYINT" property="providerId"/>
+		<result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+		<result column="account_pass" jdbcType="VARCHAR" property="accountPass"/>
+		<result column="creator" jdbcType="VARCHAR" property="creator"/>
+		<result column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" property="createTime"/>
+	</resultMap>
+
+	<insert id="addProviderConfig" parameterType="ProviderConfig" >
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+			select  replace(uuid(),'-','')   from dual
+		</selectKey>
+		insert into m_provider_config (id, org_id, provider_id, account_name, account_pass, creator, create_time)
+		VALUES (#{id}, #{orgId}, #{providerId}, #{accountName}, #{accountPass}, #{creator}, #{createTime})
+	</insert>
+
+	<select id="findConfigByOrgId" parameterType="java.lang.Integer" resultMap="ProviderConfigMap">
+		select * from m_provider_config where org_id = #{orgId}
+	</select>
+
+	<update id="updateProviderConfig" parameterType="ProviderConfig">
+		update m_provider_config set provider_id = #{providerId}, account_name = #{accountName}, account_pass = #{accountPass}
+		where id = #{id}
+	</update>
+
+</mapper>

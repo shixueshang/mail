@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit"/>
+	<title>邮件平台</title>
+	<link rel="stylesheet" href="./common/css/reset.css">
+  <link rel="stylesheet" href="./common/css/iconfont.css">
+  <link rel="stylesheet" href="./common/css/base.css">
+  <link rel="stylesheet" href="./common/js/page/page.css">
+  <link rel="stylesheet" href="./common/css/layout.css">
+  <link rel="stylesheet" href="./common/css/mail.css">
+  <script type="text/javascript" src="./common/js/common.js "></script>
+  <script type="text/javascript" src="./api/config.js"></script>
+  <script type="text/javascript" src="./common/js/jquery-1.10.1.min.js"></script>
+</head>
+<body>	
+  <div class="header-box"></div>
+  <script type="text/javascript">
+    $('.header-box').load('./include/header.html')
+  </script>
+
+  <div class="navigation-bar">
+    <div class="mincontainner">
+      <label class="title">
+          <a href="index.html">发送中的邮件</a>
+      </label>
+      <label class="title active">
+          <a href="mail_list.html">邮件任务列表</a>
+      </label>
+      <label class="title">
+          <a href="black_list.html">黑名单</a>
+      </label>
+    </div>
+  </div>
+
+  <div class="wrapper">
+    <div class="container">
+      <div class="coolguaSidebar">
+        <div class="sider_name">筛选器</div>
+        <div class="sms_sider_box"> 
+          <div class="listbox">
+            <div class="siderbarlist">任务名称</div>
+            <div>
+              <input type="text" class="input" name="name" />
+            </div>
+          </div>
+          <div class="listbox">
+            <div class="siderbarlist">邮件类型</div>
+            <div>
+              <select name="mailType">
+                <option value="">请选择</option>
+                <option value="0">标准类型</option>
+                <option value="1">个性邮件</option>
+              </select>
+            </div>
+          </div>
+          <div class="listbox">
+            <div class="siderbarlist">邮件主题</div>
+            <div>
+              <input type="text" class="input" name="subject" />
+            </div>
+          </div>
+          <div class="listbox">
+            <div class="siderbarlist">源数据</div>
+            <div>
+              <select name="dsType">
+                <option value="">请选择</option>
+                <option value="0">本地上传</option>
+                <option value="1">外部数据源</option>
+              </select>
+            </div>
+          </div>
+          <div class="listbox">
+            <div class="siderbarlist">创建时间</div>
+            <div><input type="text" name="startTime" /></div>
+            <p class="pm">至</p>
+            <div><input type="text" name="endTime" /></div>
+          </div>
+        </div>
+        <div class="siderboxbtn">
+          <input value="查询" type="button" id="search" class="button">&nbsp;<input value="重置" class="button" type="button" onclick="reset('.coolguaSidebar', '#search')">
+        </div>
+      </div>
+      
+      <div class="task-nav" style="visibility: visible;">
+        <ul>
+          <li class="prevent-task active" state="0">进行中的任务</li>
+          <li class="close-task" state="1" >关闭的任务</li>
+          <li class="delete-task" state="2" >删除的任务</li>
+          <div class="task-line"></div>
+        </ul>
+      </div>
+
+      <div class="main-content">
+        <div class="toolbar">
+          <input type="button" value="关闭任务" class="button btn1" onclick="updateStatus(1)">
+          <input type="button" value="创建任务" class="button btn1" onclick="gotoPage('mail_create.html')">
+          <input type="button" value="删除任务" class="button btn2" onclick="updateStatus(2)">
+          <input type="button" value="开启任务" class="button btn2" onclick="updateStatus(0)">
+          <input type="button" value="还原至关闭的任务" class="button btn3" onclick="updateStatus(1)">
+        </div>
+        <table cellspacing="0" cellpadding="0" class="tablelist">
+          <tbody>
+            <tr>
+              <th><input type="checkbox" class="checkbox" name="checkbox" onclick="checkAll(this, 'checkbox')" />序号</th>
+              <th>操作</th>
+              <th>任务名称</th>
+              <th>邮件类型</th>
+              <th>源数据</th>
+              <th>邮件主题</th>
+              <th>创建者</th>
+              <th>创建时间</th>
+            </tr>
+          </tbody>
+          <tbody id="tabDataLict">
+          </tbody>
+        </table>
+        <div class="progresspage" id="pageSection" style="text-align: center;"></div>
+      </div>
+
+    </div>
+  </div>
+  <script type="text/javascript" src="./common/js/layer/layer.js"></script>
+  <script type="text/javascript" src="./common/js/page/page-v0.9.js"></script>
+  <script type="text/javascript" src="./api/mail-list.js"></script>
+</body>
+</html>

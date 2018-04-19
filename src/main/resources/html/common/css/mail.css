@@ -1,0 +1,205 @@
+.item-mail{
+    padding:20px;
+    font-size: 13px;
+}
+.item-mail>li{
+    padding:10px 0;
+}
+.item-mail>li>label{
+    width: 100px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.item-mail>li>label.lab{
+    vertical-align: top
+}
+.item-mail>li select{
+    width: 220px;
+    height: 28px;
+    border: 1px solid #d2cbcb;
+}
+.item-mail>li>span.tip{font-size: 12px;color:#999;margin-left: 40px;}
+.item-mail>li input[type=text]{
+    width: 212px;
+    height: 26px;
+    border: 1px solid #d2cbcb;
+    padding-left:5px;
+}
+.item-mail .addTarget{
+    padding-left: 102px;
+}
+.item-mail .item-left{
+    padding-left: 102px;
+}
+.item-left .upload-file{display: none;margin-top: 10px;}
+.item-left .configField{margin-top:10px;display: none}
+
+.upload-box{margin-left:104px;margin-top:20px;}
+.upload-box textarea{
+    width: 750px;
+    height: 300px;
+    border: 1px solid #999;
+}
+.form-editbox{
+    border: 1px solid #ddd;
+    padding: 20px;
+    overflow: hidden;
+    margin-top: -15px;
+    box-shadow: 0px 0px 2px #dcd9d9;
+}
+.send-info{
+    display: inline-block;
+    vertical-align: middle;
+}
+.send-info>p{
+    margin: 0px;
+    height: 35px;
+    line-height: 35px;
+}
+.send-info>p select{
+        width: 80px;
+    height: 22px;
+    margin-left: 20px;
+}
+.send-info>p input[type=checkbox]{
+        vertical-align: text-bottom;
+    margin-right: 5px;
+}
+.item-mail>li input[name=sendTime]{display: none;width: 141px;height:20px;}
+.submit-box{
+    margin-top:20px;
+    padding: 20px 15px;
+    border-top: 1px solid #eee;
+}
+
+.sms_data_box .describe_task_ul{
+    display: flex;
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 15px;
+}
+.sms_data_box .describe_task_ul li{
+flex: 1;
+    font-size: 12px;
+    text-align: center;
+    padding: 10px 0;
+}
+.sms_data_box .describe_task_ul li p{
+    font-size:18px;
+    font-weight:bold;
+    margin:0px;
+}
+.sms_data_box .describe_task_ul li p.pl{color:#7cc623;}
+.sms_data_box .describe_task_ul li p.pt{color:#d40101;}
+
+.chart-main{background: #fff;}
+
+
+.formdatabox{width:640px;margin:40px auto;border-left: 1px solid #efefef;border-right: 1px solid #efefef;}
+.formdatabox .datatable th{border: 1px solid #efefef;padding: 7px 10px;border-right: none;border-left: none;}
+.formdatabox .datatable td{border: 1px solid #efefef;padding: 7px 10px;border-right: none;border-left: none;}
+.formdatabox input[type=text]{width: 212px;height: 26px;border: 1px solid #d2cbcb;padding-left: 5px;}
+.smscontent .cfsms_box{width:980px;margin:0 auto;}
+.cfsms_box .ossTre{}
+.cfsms_box .ossTre .title{}
+.configture_btn{margin-top:25px;text-align:center;margin-bottom:30px;}
+.smscontent .paddmain{padding:20px 0 40px 0;}
+.uploaddata .datashow{padding-top: 15px}
+.uploaddata .datashow .textarea{width:410px;height:150px;border:1px solid #d8d8d8;}
+.uploaddata .px{font-size:12px;color:#333;}
+.ossTre .disTre .title{height:40px;line-height: 40px;}
+.ossTre .disTre .disContent{padding: 15px 20px;border: 1px solid #e0e0e0;}
+.ossTre .disTre .disContent .str1{height: 40px;line-height: 40px;}
+.ossTre .disTre .disContent .str1 .selectDis{width: 25%;padding-left:5px;height: 26px;}
+.ossTre .disTre .disContent .str1 label{width:80px;height:40px;display: inline-block;font-size: 12px;}
+.ossTre .disTre .disContent .str1 .setW{width: 135px;}
+.ossTre .disTre .disContent .str1 .osInPut{width: 25%;padding-left:5px;height: 24px;border: 1px solid #d1d1d1;}
+.disTre .btnDis{height: 40px;padding: 0 15px;line-height: 40px;background: #fff;border: 1px solid #e0e0e0;border-top:none;}
+.disTre .btnDis .btnNum{margin-left: 15px;}
+.addxiu_location .ossTre{width: 50%;float: left;margin-right: -8px;}
+.idea .idea_content{margin-right: -15px;margin-left: -15px;width: auto;}
+.ossTre .disTre .disContent .str1 .osInPut_stc{width:45%;}
+.disTre .btnDis_server{height: 80px;}
+.btnDis .coolgua_server{float: left;width: 70%;margin-left: 13px;margin-top: 10px;}
+.disTre .btnDis_server input[type=button]{float:left;margin-top:25px;}
+.btnDis .coolgua_server li{float: left;width: 50%;height: 20px;line-height: 20px;}
+.idea_content .configture_btn{margin-top:40px;padding: 0 10px;}
+.coolguaSidebar .listbox .ana_input{width:170px!important;}
+.xiuminbtnlist.xiuminbtnlist_active{background:#7cc623;color:#fff;}
+.cfsms_box{padding: 20px 40px;}
+
+.tab-box{display: none}
+
+/**
+ * 表格样式
+ */
+.table-type2{
+    width: 90%;
+    font-size: 12px;
+    border-left: 1px solid #efefef;
+    border-right: 1px solid #efefef;
+    margin:20px auto;
+}
+.table-type2>tbody>tr>th{
+    border: 1px solid #efefef;
+    padding: 7px 10px;
+    border-right: none;
+    border-left: none;
+    text-align: left;
+}
+tr>.first-th{
+    width:15%;
+}
+.table-type2>tbody>tr>td{
+    border: 1px solid #efefef;
+    padding: 7px 10px;
+    border-right: none;
+    border-left: none;
+    text-align: left;
+}
+
+.table-type3{
+    background: #fff;
+    width: 100%;
+    border-left: 1px solid #efefef;
+    border-right: 1px solid #efefef;
+    font-size: 12px;
+}
+.table-type3>tbody>tr>th{
+    border: 1px solid #efefef;
+    padding: 10px 10px;
+    border-right: none;
+    border-left: none;
+    text-align: left;
+    font-weight: normal;
+}
+.table-type3>tbody>tr>td{
+    padding: 10px 10px;
+    border-right: none;
+    border-left: none;
+    text-align: left;
+}
+
+
+.chartsbox{width: 100%;margin-bottom: 15px;}
+.checkbox-lab input[type=radio]{
+    vertical-align: text-bottom;
+    margin-right: 5px;
+}
+.attachment-box .attachment-list{
+    margin-top: 10px;
+}
+.attachment-list .deleteIcon{
+    font-size: 12px;
+    margin-left: 10px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.item-left>.source-item{margin-top:10px;}
+.source-item .source-field{width: 100px;height: 20px;}
+.source-item span{color: #585555;margin-left: 10px;}
+.item-left .icon-jia{
+        font-size: 26px;
+    cursor: pointer;
+    color: #191717;
+}
+.item-left .icon-jia:hover{color: #7cc623}

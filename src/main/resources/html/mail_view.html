@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit"/>
+	<title>邮件平台</title>
+	<link rel="stylesheet" href="./common/css/reset.css">
+  <link rel="stylesheet" href="./common/css/iconfont.css">
+  <link rel="stylesheet" href="./common/css/base.css">
+  <link rel="stylesheet" href="./common/js/page/page.css">
+  <link rel="stylesheet" href="./common/js/wangEditor/dist/css/wangEditor.min.css">
+  <link rel="stylesheet" href="./common/css/layout.css">
+  <link rel="stylesheet" href="./common/css/mail.css">
+  <script type="text/javascript" src="./common/js/common.js"></script>
+  <script type="text/javascript" src="./api/config.js"></script>
+  <script type="text/javascript" src="./common/js/jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="./common/js/datepicker/WdatePicker.js"></script>
+</head>
+<body>	
+  <div class="header-box"></div>
+  <div class="navigation-box"></div>
+  <script type="text/javascript">
+    $('.header-box').load('./include/header.html')
+    $('.navigation-box').load('./include/navigation.html')
+  </script>
+   
+  <div class="wrapper">
+    <div class="container">  
+      <div class="main-content main-full">
+        <div class="toolbar">
+          任务内容
+        </div>
+        <ul class="item-mail">
+          <li style="display: none">
+            <label>活动ID</label>
+            <sapn name="campaignId"></sapn>
+          </li>
+          <li>
+            <label>任务名称</label>
+            <span name="name" ></sapn>
+          </li>
+          <li>
+            <label>发件人姓名</label>
+            <span name="senderName"></span>
+          </li>
+          <li>
+            <label>发件人邮址</label>
+            <span name="senderAddress"></span>
+          </li>
+          <li>
+            <label>回复邮址</label>
+            <span name="replyAddress"></span>
+          </li>
+          <li>
+            <label>邮件主题</label>
+            <span name="subject"></span>
+          </li>
+          <li>
+            <label>数据源</label>
+            <select name="dsType" disabled="disabled">
+              <option value="">请选择</option>
+              <option value="0">本地上传</option>
+              <option value="1">外部数据源</option>
+            </select>
+          </li>
+          <li>
+            <label>邮件字段</label>
+            <span name="mailField"></span>
+          </li>
+          <li>
+            <label>邮件类型</label>
+            <select name="mailType" disabled="disabled">
+              <option value="">请选择</option>
+              <option value="0">标准类型</option>
+              <option value="1">个性邮件</option>
+            </select>
+          </li>
+          <li>
+            <label>邮件内容</label>
+            <div class="upload-box" style="margin-top:0px;">
+              <div class="upload-editor" style="width: 800px;">
+                <div id="formnote" class="form-editbox"></div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <label>发送选项</label>
+            <div class="send-info">
+              <p>
+                <label><input type="checkbox" disabled name="scheduled" />定时发送</label>
+                <span name="sendTime"></span>
+              </p>
+              <p>
+                <label><input type="checkbox" disabled name="unsubscribe" />尾部添加退订按钮<select id="langSelect" disabled><option value="cn">中文</option><option value="en">英文</option></select></label>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <div class="submit-box">
+          <input type="button" class="button" value="关闭" onclick="gotoPage('mail_list.html')" />
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <script type="text/javascript" src="./common/js/layer/layer.js"></script>
+  <script type="text/javascript" src="./api/mail-view.js"></script>
+</body>
+</html>
